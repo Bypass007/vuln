@@ -10,7 +10,7 @@ When the same parameter ID is submitted, it is sorted according to the order of 
 
 However, when the parameter ID is used to transform the case, such as Id, iD and ID, it will be regarded as different parameters.
 
-![](.\2.png)
+![](2.png)
 
 ####Uri parameter overflow
 
@@ -33,13 +33,13 @@ Test cases:
 
 Output results:
 
-![](.\3.png)
+![](3.png)
 
 It can be seen that using ngx.req.get_uri_args to get URI request parameters, we only get the first 100 parameters, and the 101st parameter is not obtained. 
 
 Continue to construct a POST request and look at it.
 
-![](.\4.png)
+![](4.png)
 
 The content of post request obtained by ngx.req.get_post_args also obtains the first 100 parameters.
 
@@ -57,11 +57,11 @@ github：https://github.com/loveshell/ngx_lua_waf
 
 **Interception effect diagram：**
 
-![](.\5.png)
+![](5.png)
 
 **Using uri parameter overflow Bypass：**
 
-![](.\6.png)
+![](6.png)
 
 
 
@@ -75,13 +75,13 @@ github：https://github.com/xsec-lab/x-waf
 
 **Interception effect diagram：**
 
-![](.\7.png)
+![](7.png)
 
 
 
 **Using uri parameter overflow Bypass：**
 
-![](.\8.png)
+![](8.png)
 
 
 

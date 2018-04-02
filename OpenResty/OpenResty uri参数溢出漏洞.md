@@ -46,7 +46,7 @@ OpenResty官网：https://openresty.org
 
 输出测试：
 
-![](.\1.png)
+![](1.png)
 
 #### B、参数大小写
 
@@ -54,7 +54,7 @@ OpenResty官网：https://openresty.org
 
 可是当参数id，进行大小写变换，如变形为Id、iD、ID，则会被当做不同的参数。
 
-![](.\2.png)
+![](2.png)
 
 比较有趣的是，window下IIS+ASP/ASPX 大小写是不敏感的，
 
@@ -85,11 +85,11 @@ OpenResty官网：https://openresty.org
 
 输出结果：
 
-![](.\3.png)
+![](3.png)
 
 可以看到，使用ngx.req.get_uri_args获取uri 请求参数，只获取前100个参数，第101个参数并没有获取到。继续构造一个POST请求，来看一下：
 
-![](.\4.png)
+![](4.png)
 
 使用ngx.req.get_post_args 获取的post请求内容，也同样只获取前100个参数。
 
@@ -107,11 +107,11 @@ github源码：https://github.com/loveshell/ngx_lua_waf
 
 **拦截效果图：**
 
-![](.\5.png)
+![](5.png)
 
 **利用参数溢出Bypass：**
 
-![](.\6.png)
+![](6.png)
 
 
 
@@ -125,11 +125,11 @@ github源码：https://github.com/xsec-lab/x-waf
 
 **拦截效果图：**
 
-![](.\7.png)
+![](7.png)
 
 **利用参数溢出Bypass：**
 
-![](.\8.png)
+![](8.png)
 
 
 
