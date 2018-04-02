@@ -2,9 +2,36 @@
 
 ### General Description	
 
-OpenResty obtains the parameters by ngx.req.get_uri_args and ngx.req.get_post_args, and can only get the first 100 parameters. When the 101st parameters are submitted, the URI parameter is overflowed, and the 101st and later parameters can not be correctly obtained. The attack statements submitted by the attacker can not be detected, and the security protection based on the ngx_lua development can be bypassed and the multiple based OpenResty is affected. The open source WAF.
+Prior to the OpenResty 1.13.6.1 version, URI parameters were obtained using the ngx.req.get_uri_args, ngx.req.get_post_args functions, allowing remote attackers to bypass OpenResty based security and affect multiple open source WAF.
 
 ### Details
+
+First look at the official API document. There are two ways to get a URI: ngx.req.get_uri_args, ngx.req.get_post_args. The main difference between the two is the difference between the parameter sources, the ngx.req.get_uri_args acquires the URI request parameters, and the ngx.req.get_post_args gets the content from the post request.
+
+Test case：
+
+`server {
+   listen    80;
+   server_name  localhost;
+
+   location /print_param {
+       content_by_lua_block {
+           local arg = ngx.req.get_uri_args()
+           for k,v in pairs(arg) do
+               ngx.say("[GET ] key:", k, " v:", v)
+           end
+
+```
+       ngx.req.read_body()
+       local arg = ngx.req.get_post_args()
+       for k,v in pairs(arg) do
+           ngx.say("[POST] key:", k, " v:", v)
+       end
+   }
+```
+
+   }
+}`
 
 When the same parameter ID is submitted, it is sorted according to the order of received parameters.
 
@@ -53,6 +80,8 @@ Based on the security protection of the ngx_lua development, it is impossible fo
 
 Ngx_lua_waf is a web application firewall based on lua-nginx-module (openresty).
 
+Using ngx.req.get_uri_args and ngx.req.get_post_args to get URI parameters.
+
 github：https://github.com/loveshell/ngx_lua_waf
 
 **Interception effect diagram：**
@@ -69,6 +98,8 @@ github：https://github.com/loveshell/ngx_lua_waf
 
 X-WAF is a cloud WAF system suitable for small and medium-sized businesses, enabling small and medium-sized businesses to have their own free cloud WAF conveniently.
 
+Using ngx.req.get_uri_args and ngx.req.get_post_args to get URI parameters.
+
 The official website：https://waf.xsec.io 
 
 github：https://github.com/xsec-lab/x-waf
@@ -82,18 +113,5 @@ github：https://github.com/xsec-lab/x-waf
 **Using uri parameter overflow Bypass：**
 
 ![](8.png)
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
